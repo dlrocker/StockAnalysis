@@ -1,0 +1,49 @@
+- name: Install HDP requirements
+  hosts: hdp
+  become: yes
+  become_method: sudo
+  tasks:
+          - name: Install required packages
+            yum:
+                    name:
+                            - chrony
+                            - curl
+                            - unzip
+                            - tar
+                            - wget
+                            - openssh-clients
+                            - openssh
+                            - gcc
+                            - openssl
+                            - openssl-devel
+                            - bzip2-devel
+                            - libffi-devel
+                            - libcurl-devel
+                    state: present
+          - name: Install Python2.7
+            dnf:
+                    name:
+                            - python2-devel
+                            - python2-pip
+                            - python2
+                    state: present
+          - name: Setup /etc/hosts file
+            lineinfile:
+                    dest: /etc/hosts
+                    line: 127.0.0.1 localhost
+                    state: present
+                    insertafter: EOF
+                    create: False
+          - name: Setup network configuration file
+            blockinfile:
+                    dest: /etc/sysconfig/network
+                    block: |
+                      NETWORKING=yes
+                      HOSTNAME=localhost
+                    state: present
+                    insertafter: EOF
+          - name: Disable iptables
+            service:
+                    name: firewalld
+                    state: stopped
+                    enabled: False
