@@ -1,6 +1,12 @@
 
 # Install ansible
+dnf makecache
+dnf install epel-release
+dnf makecache
 yum -y install ansible || { echo "Failure installing ansible"; exit 1; }
+
+# Install git
+yum -y install git
 
 # Create ansible inventory definition file
 cat > /etc/ansible/hosts << EOF
