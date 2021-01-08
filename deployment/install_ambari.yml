@@ -1,0 +1,35 @@
+- name: Install Ambari
+  hosts: hdp
+  become: yes
+  become_method: sudo
+  tasks:
+          - name: Create Download directory
+            file:
+                    path: /tmp/ambari
+                    state: directory
+                    mode: '0777'
+          - name: Download Ambari media
+            get_url:
+                    url: https://apache.osuosl.org/ambari/ambari-2.7.5//apache-ambari-2.7.5-src.tar.gz
+                    dest: /tmp/ambari-2.7.3.0-centos7.tar.gz
+                    mode: '0777'
+          - name: Unpack Ambari media
+            unarchive:
+                    src: /tmp/ambari-2.7.3.0-centos7.tar.gz
+                    dest: /tmp/ambari/
+                    mode: '0777'
+          - name: Install Maven
+            yum:
+                    name: maven
+                    state: present
+          - name: Use Maven to build the Ambari media
+            shell: mvn versions:set -DnewVersion=2.7.5.0.0
+            args:
+                    chdir: /tmp/ambari/apache-ambari-2.7.5-src/
+                    executable: /bin/bash
+          - name: Maven clean install on ambari media
+            shell: mvn -B clean install rpm:rpm -DnewVersion=2.7.5.0.0 -DbuildNumber=5895e4ed6b30a2da8a90fee2403b6cab91d19972 -DskipTests -Dpython.ver="python >= 2.7"
+            args:
+                    chdir: /tmp/ambari/
+                    executable: /bin/bash
+
