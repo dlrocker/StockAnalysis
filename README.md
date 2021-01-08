@@ -1,5 +1,5 @@
 # StockAnalysis
-Focused on doing various different data explorations on stock data
+Focused on doing various different data explorations on stock data based on activity on different stock related subreddits on Reddit.
 
 
 # Environment Setup
