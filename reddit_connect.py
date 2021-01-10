@@ -35,9 +35,41 @@ def connect(parsed_args):
         user_agent=user_agent.format(user_id=parsed_args.user_id)
     )
 
-    print(reddit.read_only)
-    for submission in reddit.subreddit("stocks").hot(limit=10):
+    for submission in reddit.subreddit("stocks").hot(limit=1):
         print(submission.title)
+        print(submission.selftext)
+        print("####################################################################")
+
+        """
+        Extracting comments with PRAW:
+        - https://praw.readthedocs.io/en/latest/tutorials/comments.html#extracting-comments-with-praw
+        - https://praw.readthedocs.io/en/latest/tutorials/comments.html#the-replace-more-method
+        
+        Important notes:
+        - Can get comments from submission by list(submission.comments) or submission.comments.list()
+        - The thread/submission may contain MoreComments object. Use the replace_more() method to remove them.
+            - submission.comments.replace_more(limit=0) removes all MoreComments objects
+            - submission.comments.replace_more(limit=None) replaces all MoreComments objects
+            
+            Each replace_more() requires a API request. replace_more() is destructive and can't be called on the same submission again.
+        """
+        # Limit at 5 for now to reduce API requests
+        submission.comment_sort = "new"
+        submission.comments.replace_more(limit=5)
+
+        # Parse over comments in breath-first-search way (so, one "level" of comments at a time. i.e. all top level,
+        # then all 2nd level, then 3rd level, and so on)
+        print("Method 1 - Traverse all comments on level at a time")
+        for comment in submission.comments.list():
+            print(comment.body)
+            print("####################################################################")
+
+        print("Method 2 - Traverse one comment thread at a time")
+        for top_level_comment in submission.comments:
+            print("Top level comment: {}".format(top_level_comment.body))
+            for second_level_comment in top_level_comment.replies:
+                print("\nSecond level comment: {}\n\n".format(second_level_comment.body))
+            print("\n####################################################################\n")
 
 
 if __name__ == "__main__":
