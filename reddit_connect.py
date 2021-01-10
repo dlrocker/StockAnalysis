@@ -2,7 +2,6 @@
 
 import argparse
 import praw
-import pprint
 
 '''
 A user agent is a unique identifier that helps Reddit determine the source of network requests.
@@ -36,8 +35,6 @@ def connect(parsed_args):
         user_agent=user_agent.format(user_id=parsed_args.user_id)
     )
 
-    print(reddit.read_only)
-    comments = dict()
     for submission in reddit.subreddit("stocks").hot(limit=1):
         print(submission.title)
         print(submission.selftext)
