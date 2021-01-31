@@ -9,15 +9,15 @@ def get_yfinance_report(ticker):
         msg = {
             "details": "Invalid stock ticker: {}".format(ticker),
             "status": 400,
-            "title": "Invalid ticker provide"
+            "title": "Invalid ticker provided"
         }
         return msg, 400
     except KeyError:
         msg = {
             "details": "Invalid stock ticker: {}".format(ticker),
             "status": 400,
-            "title": "Invalid ticker provide"
+            "title": "Invalid ticker provided"
         }
         return msg, 400
-    return json.dumps(data), 200
+    return data, 200
 

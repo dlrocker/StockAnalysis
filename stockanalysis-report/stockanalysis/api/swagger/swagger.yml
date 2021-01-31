@@ -17,7 +17,7 @@ paths:
     get:
       summary: "Gets Yahoo Finance based stock report"
       description: Uses the Yahoo Finance API to build information for a report
-      operationId: "report.report.get_yfinance_report"
+      operationId: "stockanalysis.api.report.report.get_yfinance_report"
       consumes:
         - "application/json"
       produces:
@@ -33,7 +33,7 @@ paths:
         200:
           description: "Success"
           schema:
-            type: "array"
+            type: "object"
         400:
           description: "The specified stock ticker is invalid"
           schema:
