@@ -5,7 +5,8 @@ from flask_cors import CORS
 import connexion
 import logging
 
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.INFO)
+# logging.basicConfig(level=logging.DEBUG)
 
 
 def build_app():

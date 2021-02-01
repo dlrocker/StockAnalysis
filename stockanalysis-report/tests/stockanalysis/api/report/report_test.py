@@ -62,6 +62,32 @@ def test_get_report_invalid_ticker(client):
         "status": 400,
         "title": "Invalid ticker provided"
     }
-    actual_data_filtered = filter_response(expected_data, actual_data)
     assert response.status_code == 400
-    assert expected_data == actual_data_filtered
+    assert expected_data == actual_data
+
+
+@pytest.mark.usefixtures("client")
+def test_get_report_invalid_query_option(client):
+    response = client.get("/api/v1/report/?option=test")
+    actual_data = json.loads(response.get_data(as_text=True))
+    expected_data = {
+        "detail": "Missing query parameter 'ticker'",
+        "status": 400,
+        "title": "Bad Request",
+        "type": "about:blank"
+    }
+    assert response.status_code == 400
+    assert expected_data == actual_data
+
+
+@pytest.mark.usefixtures("client")
+def test_get_report_ticker_as_number(client):
+    response = client.get("/api/v1/report/?ticker=1")
+    actual_data = json.loads(response.get_data(as_text=True))
+    expected_data = {
+        "details": "Invalid stock ticker: 1",
+        "status": 400,
+        "title": "Invalid ticker provided"
+    }
+    assert response.status_code == 400
+    assert expected_data == actual_data
