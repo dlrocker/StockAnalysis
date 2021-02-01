@@ -38,3 +38,28 @@ paths:
           description: "The specified stock ticker is invalid"
           schema:
             type: "array"
+  /report/image/:
+    get:
+      summary: "Gets Yahoo Finance based stock report image"
+      description: Uses the Yahoo Finance API to build a report
+      operationId: "stockanalysis.api.report.report.get_yfinance_report_image"
+      consumes:
+        - "application/json"
+      produces:
+        - "image/png"
+      parameters:
+        - in: "query"
+          name: "ticker"
+          type: "string"
+          required: true
+          description: The stock ticker for which to generate the report
+          default: "GME"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            type: "file"
+        400:
+          description: "The specified stock ticker is invalid"
+          schema:
+            type: "array"

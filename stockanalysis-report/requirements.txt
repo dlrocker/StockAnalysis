@@ -5,3 +5,4 @@ pandas==0.24.2
 flask==1.1.1
 connexion==2.7.0
 connexion[swagger-ui]
+kaleido
