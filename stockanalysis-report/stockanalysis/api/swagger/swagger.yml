@@ -47,6 +47,7 @@ paths:
         - "application/json"
       produces:
         - "image/png"
+        - "application/json"
       parameters:
         - in: "query"
           name: "ticker"

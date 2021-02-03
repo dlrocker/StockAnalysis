@@ -1,5 +1,4 @@
 import yfinance as yf
-import json
 from plotly.subplots import make_subplots
 import plotly.graph_objects as go
 import locale
@@ -62,7 +61,6 @@ def build_additional_features(ticker_data):
 def build_yfinance_report(stock):
     ticker = yf.Ticker(stock)
 
-    #print("Ticker info:\n{}".format(json.dumps(ticker.info, indent=2)))
     filtered_info_features = dict((key, ticker.info[key]) for key in ticker.info if key in info_fields)
     data = build_additional_features(filtered_info_features)
 
