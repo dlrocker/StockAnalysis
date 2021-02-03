@@ -22,7 +22,15 @@ setup(
     keywords="Stock Analysis",
     packages=find_namespace_packages(include=["stockanalysis.*"], exclude=["tests"]),
     python_requires=">=3.7",
-    install_requires=[],
+    install_requires=[
+        "yfinance==0.1.55",
+        "plotly>=4.14.3",
+        "numpy==1.18.1",
+        "pandas==0.24.2",
+        "flask==1.1.1",
+        "connexion==2.7.0",
+        "connexion[swagger-ui]"
+    ],
     # entry_points={
     #    "console_scripts": ["stockanalysis=stockanalysis:main"]
     # },
