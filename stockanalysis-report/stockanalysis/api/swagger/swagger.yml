@@ -26,7 +26,6 @@ paths:
         - in: "query"
           name: "ticker"
           type: "string"
-          required: true
           description: The stock ticker for which to generate the report
           default: "GME"
       responses:
@@ -52,7 +51,6 @@ paths:
         - in: "query"
           name: "ticker"
           type: "string"
-          required: true
           description: The stock ticker for which to generate the report
           default: "GME"
       responses:

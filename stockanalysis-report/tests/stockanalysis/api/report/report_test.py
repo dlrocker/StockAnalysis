@@ -1,6 +1,6 @@
 import pytest
 import json
-
+import os
 
 def filter_response(expected_data: dict, actual_data: dict):
     """
@@ -54,6 +54,22 @@ def test_get_report_valid_ticker(client):
 
 
 @pytest.mark.usefixtures("client")
+def test_get_report_default_ticker(client):
+    """
+    Validate that by default the API returns information for GME (GameStop)
+    """
+    response = client.get("/api/v1/report/")
+    actual_data = json.loads(response.get_data(as_text=True))
+    expected_data = {
+        "longName": "GameStop Corp.",
+        "sector": "Consumer Cyclical"
+    }
+    actual_data_filtered = filter_response(expected_data, actual_data)
+    assert response.status_code == 200
+    assert expected_data == actual_data_filtered
+
+
+@pytest.mark.usefixtures("client")
 def test_get_report_invalid_ticker(client):
     response = client.get("/api/v1/report/?ticker=FAKETICKER")
     actual_data = json.loads(response.get_data(as_text=True))
@@ -91,3 +107,19 @@ def test_get_report_ticker_as_number(client):
     }
     assert response.status_code == 400
     assert expected_data == actual_data
+
+
+@pytest.mark.usefixtures("client")
+def test_get_yfinance_report_image(client):
+    response = client.get("/api/v1/report/image/?ticker=GME")
+    with open("report.png", "wb") as f:
+        f.write(response.data)
+    assert response.status_code == 200
+
+    # Verify it is actually a png by checking first line of file for \x89PNG
+    with open("report.png", "rb") as f:
+        content = f.readline()
+    assert content.startswith(b'\x89PNG')
+
+    # Cleanup
+    os.remove("report.png")

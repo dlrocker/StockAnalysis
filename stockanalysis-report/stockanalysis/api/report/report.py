@@ -1,8 +1,6 @@
-import json
-import io
-import plotly
 from stockanalysis.report.build_yfinance_report import build_yfinance_report, build_yfinance_report_image
 from flask import send_file
+import io
 
 
 def get_yfinance_report(ticker):
@@ -44,5 +42,14 @@ def get_yfinance_report_image(ticker):
         return msg, 400
 
     fig = build_yfinance_report_image(ticker_obj, data)
-    fig.write_image("report.png", scale=1, height=1500)
-    return send_file("report.png", mimetype='image/png'), 200
+
+    # Create file object to stream the data to the API caller
+    file_object = io.BytesIO()
+
+    # write PNG into the file-object
+    fig.write_image(file_object, scale=1, height=1500)
+
+    # move to beginning of file so `send_file()` it will read from start
+    file_object.seek(0)
+
+    return send_file(file_object, mimetype='image/png')
