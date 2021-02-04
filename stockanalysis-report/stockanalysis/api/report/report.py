@@ -6,14 +6,16 @@ import io
 def get_yfinance_report(ticker):
     try:
         ticker_obj, data = build_yfinance_report(ticker.upper())
-    except ValueError:
+    except ValueError as e:
+        print(e)
         msg = {
             "details": "Invalid stock ticker: {}".format(ticker),
             "status": 400,
             "title": "Invalid ticker provided"
         }
         return msg, 400
-    except KeyError:
+    except KeyError as e:
+        print(e)
         msg = {
             "details": "Invalid stock ticker: {}".format(ticker),
             "status": 400,
@@ -26,14 +28,16 @@ def get_yfinance_report(ticker):
 def get_yfinance_report_image(ticker):
     try:
         ticker_obj, data = build_yfinance_report(ticker.upper())
-    except ValueError:
+    except ValueError as e:
+        print(e)
         msg = {
             "details": "Invalid stock ticker: {}".format(ticker),
             "status": 400,
             "title": "Invalid ticker provided"
         }
         return msg, 400
-    except KeyError:
+    except KeyError as e:
+        print(e)
         msg = {
             "details": "Invalid stock ticker: {}".format(ticker),
             "status": 400,
