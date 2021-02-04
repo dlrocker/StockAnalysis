@@ -7,6 +7,9 @@ script_directory = path.abspath(path.dirname(__file__))
 with open(path.join(script_directory, 'README.md'), encoding='utf-8') as f:
     readme = f.read()
 
+with open(path.join(script_directory, 'requirements.txt'), encoding='utf-8') as f:
+    install_requirements = f.readlines()
+
 setup(
     name="stockanalysis-report",
     version="1.0.0",
@@ -22,15 +25,7 @@ setup(
     keywords="Stock Analysis",
     packages=find_namespace_packages(include=["stockanalysis.*"], exclude=["tests"]),
     python_requires=">=3.7",
-    install_requires=[
-        "yfinance==0.1.55",
-        "plotly>=4.14.3",
-        "numpy==1.18.1",
-        "pandas==0.24.2",
-        "flask==1.1.1",
-        "connexion==2.7.0",
-        "connexion[swagger-ui]"
-    ],
+    install_requires=install_requirements,
     # entry_points={
     #    "console_scripts": ["stockanalysis=stockanalysis:main"]
     # },

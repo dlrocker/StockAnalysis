@@ -87,9 +87,9 @@ def test_get_report_invalid_query_option(client):
     response = client.get("/api/v1/report/?option=test")
     actual_data = json.loads(response.get_data(as_text=True))
     expected_data = {
-        "detail": "Missing query parameter 'ticker'",
+        "detail": "Extra query parameter(s) option not in spec",
         "status": 400,
-        "title": "Bad Request",
+        "title": None,
         "type": "about:blank"
     }
     assert response.status_code == 400
