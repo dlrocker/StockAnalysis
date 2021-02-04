@@ -2,6 +2,7 @@ import yfinance as yf
 from plotly.subplots import make_subplots
 import plotly.graph_objects as go
 import locale
+import json
 locale.setlocale(locale.LC_ALL, '')
 
 info_fields = {
@@ -61,22 +62,28 @@ def build_additional_features(ticker_data):
 def build_yfinance_report(stock):
     ticker = yf.Ticker(stock)
 
+    print("Ticker info: {}".format(json.dumps(ticker.info, indent=2)))
+
     filtered_info_features = dict((key, ticker.info[key]) for key in ticker.info if key in info_fields)
     data = build_additional_features(filtered_info_features)
 
+    print("Data after building additional features: {}".format(json.dumps(data, indent=2)))
     report_dict = dict()
     for field in list(data.keys()):
-        value = data.get(field)
-        if info_field_type.get(field) == "string":
-            report_dict[field] = value
-        elif info_field_type.get(field) == "currency":
-            report_dict[field] = locale.currency(value, grouping=True)
-        elif info_field_type.get(field) == "percent":
-            report_dict[field] = "{:.3f} %".format(float(value)*100)
-        elif info_field_type.get(field) == "numeric":
-            report_dict[field] = "{:,.3f}".format(value)
-        else:
-            report_dict[field] = str(value)
+        try:
+            value = data.get(field)
+            if info_field_type.get(field) == "string":
+                report_dict[field] = value
+            elif info_field_type.get(field) == "currency":
+                report_dict[field] = locale.currency(value, grouping=True)
+            elif info_field_type.get(field) == "percent":
+                report_dict[field] = "{:.3f} %".format(float(value)*100)
+            elif info_field_type.get(field) == "numeric":
+                report_dict[field] = "{:,.3f}".format(value)
+            else:
+                report_dict[field] = str(value)
+        except Exception as e:
+            print("Failed processing field {}. Exception: {}".format(field, e))
 
     return ticker, report_dict
 
