@@ -47,4 +47,4 @@ jobs:
         cd stockanalysis-report
         #python setup.py sdist bdist_wheel
         ls
-        python -m pytest --disable-pytest-warnings
+        python -m pytest --verbose --disable-pytest-warnings
