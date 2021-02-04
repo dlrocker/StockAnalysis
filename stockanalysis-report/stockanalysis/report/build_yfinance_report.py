@@ -1,5 +1,4 @@
 import yfinance as yf
-import json
 from plotly.subplots import make_subplots
 import plotly.graph_objects as go
 import locale
@@ -62,7 +61,6 @@ def build_additional_features(ticker_data):
 def build_yfinance_report(stock):
     ticker = yf.Ticker(stock)
 
-    print("Ticker info:\n{}".format(json.dumps(ticker.info, indent=2)))
     filtered_info_features = dict((key, ticker.info[key]) for key in ticker.info if key in info_fields)
     data = build_additional_features(filtered_info_features)
 
@@ -80,8 +78,15 @@ def build_yfinance_report(stock):
         else:
             report_dict[field] = str(value)
 
+    return ticker, report_dict
+
+
+
+
+def build_yfinance_report_image(ticker, data):
     field_names_superset = {**info_fields, **generated_fields}
-    field_names_subset = dict((key, field_names_superset[key]) for key in field_names_superset if key in report_dict.keys())
+    field_names_subset = dict(
+        (key, field_names_superset[key]) for key in field_names_superset if key in data.keys())
 
     fig = make_subplots(
         rows=3,
@@ -104,7 +109,7 @@ def build_yfinance_report(stock):
             cells=dict(
                 values=[
                     [field_names_subset[field_name] for field_name in field_names_subset],  # 1st column
-                    [report_dict[field] for field in field_names_subset]  # 2nd column
+                    [data[field] for field in field_names_subset]  # 2nd column
                 ],
                 line_color='darkslategray',
                 fill_color='lightcyan',
@@ -141,7 +146,8 @@ def build_yfinance_report(stock):
                 align='left'
             ),
             cells=dict(
-                values=[recommendations.Date, recommendations.Firm, recommendations['To Grade'], recommendations['From Grade'], recommendations['Action']],
+                values=[recommendations.Date, recommendations.Firm, recommendations['To Grade'],
+                        recommendations['From Grade'], recommendations['Action']],
                 line_color='darkslategray',
                 fill_color='lightcyan',
                 align='left'
@@ -153,5 +159,6 @@ def build_yfinance_report(stock):
 
 
 if __name__ == "__main__":
-    fig = build_yfinance_report("GME")
+    ticker, report_data = build_yfinance_report("GME")
+    fig = build_yfinance_report_image(ticker, report_data)
     fig.show()

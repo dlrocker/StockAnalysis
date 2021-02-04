@@ -1,0 +1,64 @@
+---
+swagger: "2.0"
+info:
+  description: "Stock Report API"
+  version: "1.0.0"
+  title: "Stock Report API Endpoint"
+basePath: /api/v1
+schemes:
+  - "http"
+  - "https"
+consumes:
+  - "application/json"
+produces:
+  - "application/json"
+paths:
+  /report/:
+    get:
+      summary: "Gets Yahoo Finance based stock report"
+      description: Uses the Yahoo Finance API to build information for a report
+      operationId: "stockanalysis.api.report.report.get_yfinance_report"
+      consumes:
+        - "application/json"
+      produces:
+        - "application/json"
+      parameters:
+        - in: "query"
+          name: "ticker"
+          type: "string"
+          description: The stock ticker for which to generate the report
+          default: "GME"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            type: "object"
+        400:
+          description: "The specified stock ticker is invalid"
+          schema:
+            type: "array"
+  /report/image/:
+    get:
+      summary: "Gets Yahoo Finance based stock report image"
+      description: Uses the Yahoo Finance API to build a report
+      operationId: "stockanalysis.api.report.report.get_yfinance_report_image"
+      consumes:
+        - "application/json"
+      produces:
+        - "image/png"
+        - "application/json"
+      parameters:
+        - in: "query"
+          name: "ticker"
+          type: "string"
+          description: The stock ticker for which to generate the report
+          default: "GME"
+      responses:
+        200:
+          description: "Success"
+          schema:
+            type: "file"
+        400:
+          description: "The specified stock ticker is invalid"
+          schema:
+            type: "array"
