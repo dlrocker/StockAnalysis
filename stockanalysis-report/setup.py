@@ -28,6 +28,7 @@ setup(
         "numpy==1.18.1",
         "pandas==0.24.2",
         "flask==1.1.1",
+        "flask-cors==3.0.10",
         "connexion==2.7.0",
         "connexion[swagger-ui]"
     ],
