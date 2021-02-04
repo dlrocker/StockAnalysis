@@ -10,7 +10,8 @@ base_swagger_url = "http://{host}:{port}/api/v1/ui".format(host=host, port=port)
 
 def build_app():
     app = connexion.FlaskApp(__name__, specification_dir='./swagger/', options={"swagger_ui": True})
-    app.add_api('swagger.yml', arguments={"title": "Stock Report Generator"})
+    # set strict_validation=True so that invalid/undefined query parameters cause 400 error
+    app.add_api('swagger.yml', arguments={"title": "Stock Report Generator"}, strict_validation=True)
     CORS(app.app)
 
     @app.route('/')
