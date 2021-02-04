@@ -37,7 +37,10 @@ jobs:
     - name: Build repo python packages
       run: |
         cd stockanalysis-report
+        # Create wheel package
         python setup.py bdist_wheel
+        # Install wheel
+        python -m pip install dist/stockanalysis_report-1.0.0-py2.py3-none-any.whl
     - name: Test with pytest
       run: |
         pwd
