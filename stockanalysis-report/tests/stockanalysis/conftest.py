@@ -6,5 +6,8 @@ flask_app = build_app()
 
 @pytest.fixture
 def client():
+    """
+    Creates a Flask rest client that can be used for API testing
+    """
     with flask_app.app.test_client() as c:
         yield c
