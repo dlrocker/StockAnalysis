@@ -4,6 +4,7 @@ import io
 
 
 def get_yfinance_report(ticker):
+    print("Provided ticker: {}".format(ticker))
     try:
         ticker_obj, data = build_yfinance_report(ticker.upper())
     except ValueError as e:
@@ -26,6 +27,7 @@ def get_yfinance_report(ticker):
 
 
 def get_yfinance_report_image(ticker):
+    print("Provided ticker: {}".format(ticker))
     try:
         ticker_obj, data = build_yfinance_report(ticker.upper())
     except ValueError as e:
