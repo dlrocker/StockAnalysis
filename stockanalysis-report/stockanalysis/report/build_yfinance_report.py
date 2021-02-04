@@ -3,7 +3,7 @@ from plotly.subplots import make_subplots
 import plotly.graph_objects as go
 import locale
 import json
-locale.setlocale(locale.LC_ALL, '')
+locale.setlocale(locale.LC_ALL, "en_US.UTF-8")
 
 info_fields = {
     "longName": "Company Name",
