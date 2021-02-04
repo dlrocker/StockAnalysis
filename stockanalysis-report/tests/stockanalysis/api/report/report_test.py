@@ -42,7 +42,6 @@ def test_get_report_valid_ticker(client):
     """
     response = client.get("/api/v1/report/?ticker=GME")
     actual_data = json.loads(response.get_data(as_text=True))
-    print(json.dumps(actual_data))
     expected_data = {
         "longName": "GameStop Corp.",
         "sector": "Consumer Cyclical",
@@ -61,7 +60,6 @@ def test_get_report_default_ticker(client):
     """
     response = client.get("/api/v1/report/")
     actual_data = json.loads(response.get_data(as_text=True))
-    print(json.dumps(actual_data))
     expected_data = {
         "longName": "GameStop Corp.",
         "sector": "Consumer Cyclical"
@@ -75,7 +73,6 @@ def test_get_report_default_ticker(client):
 def test_get_report_invalid_ticker(client):
     response = client.get("/api/v1/report/?ticker=FAKETICKER")
     actual_data = json.loads(response.get_data(as_text=True))
-    print(json.dumps(actual_data))
     expected_data = {
         "details": "Invalid stock ticker: FAKETICKER",
         "status": 400,
