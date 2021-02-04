@@ -1,6 +1,8 @@
 # StockAnalysis
 Focused on doing various different data explorations on stock data based on activity on different stock related subreddits on Reddit.
 
+[![Stock Analysis Report package test status](https://github.com/dlrocker/StockAnalysis/workflows/python-package-and-test/badge.svg)](https://github.com/dlrocker/StockAnalysis/actions)
+
 ## Pre-Requisites
 Prior to running this code you need:
 - A development environment with Python 3.8
